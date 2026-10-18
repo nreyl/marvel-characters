@@ -1,5 +1,13 @@
-import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
-
+import { 
+  Column, 
+  CreateDateColumn, 
+  Entity, 
+  PrimaryGeneratedColumn, 
+  UpdateDateColumn,
+  ManyToOne,
+  JoinColumn 
+} from 'typeorm';
+import { Team } from '../../teams/entities/team.entity';
 export enum CharacterStatus {
     ACTIVE = 'ACTIVE',
     INJURED = 'INJURED',
@@ -21,7 +29,7 @@ export class Character {
     @Column()
     main_power: string;
 
-    @Column(limit => limit(1, 100))
+    @Column({ type: 'int' })
     power_level: number;
 
     @Column( { type: 'enum', enum: CharacterStatus, default: CharacterStatus.ACTIVE } )
@@ -32,6 +40,10 @@ export class Character {
 
     @Column({nullable: true})
     team_id: number;
+
+    @ManyToOne(() => Team, (team) => team.characters, { nullable: true, onDelete: 'SET NULL' })
+    @JoinColumn({ name: 'team_id' })
+    team: Team;
 
     @CreateDateColumn()
     created_at: Date;
