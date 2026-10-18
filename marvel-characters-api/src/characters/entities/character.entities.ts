@@ -39,7 +39,7 @@ export class Character {
     is_villain: boolean;
 
     @Column({nullable: true})
-    team_id: number;
+    team_id: number | null;
 
     @ManyToOne(() => Team, (team) => team.characters, { nullable: true, onDelete: 'SET NULL' })
     @JoinColumn({ name: 'team_id' })

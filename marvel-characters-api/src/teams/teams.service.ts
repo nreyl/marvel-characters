@@ -2,7 +2,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, In } from 'typeorm';
 import { Team } from './entities/team.entity';
-import { Character } from '../characters/entities/character.entity';
+import { Character } from '../characters/entities/character.entities';
 import { CreateTeamDto } from './dto/create-team.dto';
 import { AssignCharactersDto } from './dto/assign-characters.dto';
 
@@ -30,7 +30,9 @@ export class TeamsService {
   async getCharacters(id: number): Promise<Character[]> {
     const team = await this.teamRepository.findOne({
       where: { id },
-      relations: ['characters'],
+      relations: {
+          characters: true,
+      },
     });
     if (!team) {
       throw new NotFoundException(`Team con id ${id} no encontrado`);
@@ -62,8 +64,7 @@ export class TeamsService {
     const updatedTeam = await this.teamRepository.save(team);
 
     if (characterIds !== undefined) {
-      // Desvincular personajes actuales si es reemplazo completo
-      await this.characterRepository.update({ team: { id } }, { team: null });
+      await this.characterRepository.update({ team_id: id }, { team_id: null });
 
       if (characterIds.length > 0) {
         const characters = await this.characterRepository.findBy({ id: In(characterIds) });

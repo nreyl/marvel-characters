@@ -6,7 +6,7 @@ import {
   UpdateDateColumn,
   OneToMany,
 } from 'typeorm';
-import { Character } from '../../characters/entities/character.entity';
+import { Character } from '../../characters/entities/character.entities';
 
 @Entity('teams')
 export class Team {
