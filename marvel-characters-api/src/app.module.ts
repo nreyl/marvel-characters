@@ -16,7 +16,8 @@ export const { ObserveModule, ObserveInstrument } = createObserveModule();
       port: 5433,
       username: 'marvel',
       password: 'marvel123',
-      database: 'marvel_db'
+      database: 'marvel_db',
+      autoLoadEntities: true,
     }),
     CharactersModule,
     TeamsModule,

@@ -32,23 +32,23 @@ export class Character {
     @Column({ type: 'int' })
     power_level: number;
 
-    @Column( { type: 'enum', enum: CharacterStatus, default: CharacterStatus.ACTIVE } )
+    @Column({ type: 'varchar', length: 20, default: CharacterStatus.ACTIVE })
     status: CharacterStatus;
 
     @Column ({type :"boolean", default: false})
     is_villain: boolean;
 
-    @Column({nullable: true})
+    @Column({ type: 'int', nullable: true })
     team_id: number | null;
 
     @ManyToOne(() => Team, (team) => team.characters, { nullable: true, onDelete: 'SET NULL' })
     @JoinColumn({ name: 'team_id' })
     team: Team;
 
-    @CreateDateColumn()
+    @CreateDateColumn({ name: 'created_at' })
     created_at: Date;
 
-    @UpdateDateColumn()
+    @UpdateDateColumn({ name: 'updated_at' })
     updated_at: Date;
 }
 
